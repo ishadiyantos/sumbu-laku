@@ -161,3 +161,13 @@ body.landing{display:block;overflow-x:hidden}
   .tl-time{font-size:12.5px}
   .tl-act{font-size:13.5px;padding-left:18px}
 }
+
+/* ===== Venue maps ===== */
+.card.venue{display:flex;flex-direction:column}
+.vmap{margin:14px 0 12px;border-radius:12px;overflow:hidden;border:1px solid var(--line);
+  box-shadow:0 10px 24px -18px rgba(18,42,33,.5);background:var(--cream-200)}
+.vmap iframe{display:block;width:100%;height:180px;border:0}
+.vmap-link{margin-top:auto;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
+  text-decoration:none;font-weight:700;font-size:13.5px;color:var(--green-700);
+  padding:8px 15px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.6);transition:all .16s}
+.vmap-link:hover{background:var(--green-700);color:#fdf7ea;border-color:var(--green-700)}
