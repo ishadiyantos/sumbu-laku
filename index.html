@@ -93,9 +93,13 @@
       <h2>Rundown Acara</h2>
       <p class="lede">Susunan lengkap kegiatan Temu Alumni, 7&ndash;8 November 2026.</p>
     </div>
+    <div class="rundown-tabs" role="tablist">
+      <button class="rtab is-active" data-day="1" role="tab" aria-selected="true">Hari 1 · Sabtu, 7 Nov</button>
+      <button class="rtab" data-day="2" role="tab" aria-selected="false">Hari 2 · Minggu, 8 Nov</button>
+    </div>
     <div class="rundown">
-      <div class="day-block">
-        <div class="day-title"><span class="day-tag">Hari 1</span><h3>Sabtu, 7 November 2026</h3></div>
+      <div class="day-block is-active" data-day="1">
+        <div class="day-title"><h3>Sabtu, 7 November 2026</h3></div>
         <div class="session">
           <h4 class="session-title">Pengukuhan Pengurus KAGAMA PKP <span class="venue">· Auditorium SPs UGM</span></h4>
           <ol class="tline">
@@ -154,8 +158,8 @@
           </ol>
         </div>
       </div>
-      <div class="day-block">
-        <div class="day-title"><span class="day-tag">Hari 2</span><h3>Minggu, 8 November 2026</h3></div>
+      <div class="day-block" data-day="2">
+        <div class="day-title"><h3>Minggu, 8 November 2026</h3></div>
         <div class="session">
           <h4 class="session-title">Outbound &amp; Alumni Awards <span class="venue">· Rumah Budaya Tembi</span></h4>
           <ol class="tline">
@@ -271,6 +275,23 @@
         document.getElementById("qrBox").innerHTML = qr.createSvgTag({cellSize:8, margin:2, scalable:true}).replace(/fill="black"/g,'fill="#122a21"');
       }
     }catch(e){}
+
+    // Rundown day tabs
+    var tabs = document.querySelectorAll(".rtab");
+    var blocks = document.querySelectorAll(".day-block");
+    tabs.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var d = btn.getAttribute("data-day");
+        tabs.forEach(function(b){
+          var on = b === btn;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-selected", on ? "true" : "false");
+        });
+        blocks.forEach(function(bl){
+          bl.classList.toggle("is-active", bl.getAttribute("data-day") === d);
+        });
+      });
+    });
   })();
 </script>
 </body>

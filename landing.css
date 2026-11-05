@@ -129,7 +129,14 @@ body.landing{display:block;overflow-x:hidden}
 
 /* ===== Rundown timeline ===== */
 .rundown{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:30px}
-.day-block{display:flex;flex-direction:column;gap:18px}
+.rundown-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}
+.rtab{font:inherit;font-weight:700;font-size:14px;cursor:pointer;border-radius:999px;padding:11px 22px;
+  border:1.5px solid var(--line);background:var(--card);color:var(--green-800);transition:all .16s;
+  box-shadow:0 6px 16px -12px rgba(18,42,33,.5)}
+.rtab:hover{border-color:var(--gold-400)}
+.rtab.is-active{background:var(--green-800);color:#fdf7ea;border-color:var(--green-800)}
+.day-block{display:none;flex-direction:column;gap:18px}
+.day-block.is-active{display:flex}
 .day-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
   padding-bottom:10px;border-bottom:2px solid var(--cream-300)}
 .day-title .day-tag{background:var(--green-700);color:#fdf7ea;font-size:12px;font-weight:800;
