@@ -45,8 +45,7 @@ body{
 .topbar-inner{max-width:var(--maxw);margin:0 auto;padding:12px 20px;
   display:flex;align-items:center;gap:18px;}
 .brand-logo-link{flex:0 0 auto;display:inline-flex;align-items:center;text-decoration:none}
-.brand-logo{height:58px;width:auto;object-fit:contain;flex:0 0 auto;max-width:min(58vw,480px);
-  filter:drop-shadow(0 3px 9px rgba(18,42,33,.22))}
+.brand-logo{height:58px;width:auto;object-fit:contain;flex:0 0 auto;max-width:min(58vw,480px)}
 .topnav{flex:1 1 auto;display:flex;gap:6px;justify-content:center;align-items:center;min-width:0}
 .topnav a{text-decoration:none;color:var(--green-800);font-weight:700;font-size:14px;
   padding:8px 16px;border-radius:999px;transition:all .16s;white-space:nowrap}
@@ -219,4 +218,52 @@ body{
 
 @media (prefers-reduced-motion:reduce){
   *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+
+/* ---------- Inline QR (in gallery info panel) ---------- */
+.qr-inline{display:flex;align-items:center;gap:14px;margin-top:8px;padding-top:14px;border-top:1px solid var(--line)}
+.qr-inline .qr-box{margin:0;padding:8px;background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 8px 18px -12px rgba(18,42,33,.4);width:fit-content}
+.qr-inline .qr-box svg{width:138px;height:138px;max-width:40vw;max-height:40vw;display:block}
+.qr-inline-label{font-size:13.5px;color:var(--muted);font-weight:600;line-height:1.35;max-width:140px}
+.qr-inline-label b{color:#d64a3b}
+
+/* ---------- Gallery info: larger, TV-friendly type ---------- */
+.counter{font-size:13px}
+.work-title{font-size:clamp(24px,2.9vw,40px)}
+.author-name{font-size:18px}
+.author-inst{font-size:16px}
+.author-meta{font-size:14px}
+.badge{font-size:13px;padding:6px 13px}
+.love-label{font-size:15px}
+.pdf-btn{font-size:15px}
+
+@media (min-width:1500px){
+  .stage{max-width:1520px}
+  .viewer{max-width:1360px;grid-template-columns:minmax(0,1fr) minmax(400px,560px);gap:54px}
+  .poster-img{max-height:82dvh}
+  .counter{font-size:16px;letter-spacing:.16em}
+  .badges{gap:10px}
+  .work-title{font-size:48px;line-height:1.1}
+  .author-name{font-size:26px}
+  .author-inst{font-size:20px}
+  .author-meta{font-size:17px}
+  .badge{font-size:16px;padding:9px 19px}
+  .love-btn{padding:16px 28px}
+  .love-label{font-size:18px}
+  .love-count{font-size:19px}
+  .love-btn .heart{width:26px;height:26px}
+  .pdf-btn{font-size:17px;padding:14px 24px}
+  .qr-inline{gap:18px;padding-top:18px}
+  .qr-inline .qr-box svg{width:196px;height:196px}
+  .qr-inline-label{font-size:17px;max-width:200px}
+  .nav-arrow{width:64px;height:64px}
+}
+@media (min-width:1900px){
+  .viewer{max-width:1560px;gap:64px}
+  .work-title{font-size:56px}
+  .author-name{font-size:30px}
+  .author-inst{font-size:23px}
+  .poster-img{max-height:84dvh}
+  .qr-inline .qr-box svg{width:220px;height:220px}
 }

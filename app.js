@@ -171,7 +171,7 @@
   function goTo(i) { state.idx = i; render(); }
 
   // ---- autoplay ----
-  function modalOpen() { return !lightbox.hidden || !qrModal.hidden; }
+  function modalOpen() { return !lightbox.hidden; }
   function clearAuto() { if (state.timer) { clearTimeout(state.timer); state.timer = null; } }
   function scheduleAuto() {
     clearAuto();
@@ -239,32 +239,22 @@
   function openLightbox() { lbImg.src = current().image; lightbox.hidden = false; document.body.style.overflow = "hidden"; clearAuto(); scheduleAuto(); }
   function closeLightbox() { lightbox.hidden = true; document.body.style.overflow = ""; scheduleAuto(); }
 
-  // ---- QR ----
-  const qrModal = $("#qrModal");
-  let qrBuilt = false;
+  // ---- QR (inline, under the action buttons) ----
   function canonicalUrl() {
     const u = new URL(window.location.href);
     u.hash = ""; u.search = "";
     return u.toString();
   }
-  function openQR() {
-    const url = canonicalUrl();
-    $("#qrUrl").textContent = url;
-    if (!qrBuilt && typeof window.qrcode === "function") {
-      try {
-        const qr = window.qrcode(0, "M"); // auto size, medium EC
-        qr.addData(url);
-        qr.make();
-        $("#qrBox").innerHTML = qr.createSvgTag({ cellSize: 8, margin: 2, scalable: true }).replace(/fill="black"/g, 'fill="#122a21"');
-        qrBuilt = true;
-      } catch (e) {
-        $("#qrBox").innerHTML = '<p style="color:#5d6a61;font-size:13px">Buka alamat di bawah secara manual.</p>';
-      }
-    }
-    qrModal.hidden = false;
-    scheduleAuto();
+  function buildInlineQR() {
+    const box = document.getElementById("qrBox");
+    if (!box || typeof window.qrcode !== "function") return;
+    try {
+      const qr = window.qrcode(0, "M");
+      qr.addData(canonicalUrl());
+      qr.make();
+      box.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 1, scalable: true }).replace(/fill="black"/g, 'fill="#122a21"');
+    } catch (e) {}
   }
-  function closeQR() { qrModal.hidden = true; scheduleAuto(); }
 
   // ---- toast ----
   let toastT;
@@ -283,15 +273,11 @@
     $("#lbPrev").addEventListener("click", (e) => { e.stopPropagation(); go(-1); });
     $("#lbNext").addEventListener("click", (e) => { e.stopPropagation(); go(1); });
     lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
-    $("#qrBtn").addEventListener("click", openQR);
-    $("#qrClose").addEventListener("click", closeQR);
     const autoBtn = document.getElementById("autoBtn");
     if (autoBtn) autoBtn.addEventListener("click", () => setAutoplay(!state.autoplay));
-    qrModal.addEventListener("click", (e) => { if (e.target === qrModal) closeQR(); });
     els.progress.addEventListener("click", (e) => { const d = e.target.closest(".dot"); if (d) goTo(+d.dataset.i); });
 
     document.addEventListener("keydown", (e) => {
-      if (!qrModal.hidden && e.key === "Escape") return closeQR();
       if (!lightbox.hidden) {
         if (e.key === "Escape") closeLightbox();
         else if (e.key === "ArrowLeft") go(-1);
@@ -327,6 +313,7 @@
     state.list = state.all.slice();
     buildFilters();
     wire();
+    buildInlineQR();
     render(false);
     await fetchVotes();
     render(false);

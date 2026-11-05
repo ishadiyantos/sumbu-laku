@@ -22,10 +22,6 @@
       <a href="index.html">Beranda</a>
       <a href="galeri.html" class="active" aria-current="page">Galeri Karya</a>
     </nav>
-    <button id="qrBtn" class="qr-btn" title="Pindai untuk beri Like" aria-label="Tampilkan QR">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="17" y1="14" x2="21" y2="14"/><line x1="14" y1="17" x2="14" y2="21"/><line x1="17" y1="17" x2="17" y2="21"/><line x1="21" y1="17" x2="21" y2="21"/><line x1="20" y1="14" x2="21" y2="14"/></svg>
-      <span>Like via QR</span>
-    </button>
   </div>
   <div class="autobar" id="autobar"><span id="autofill"></span></div>
 </header>
@@ -63,6 +59,10 @@
           Unduh PDF
         </a>
       </div>
+      <div class="qr-inline">
+        <div id="qrBox" class="qr-box"></div>
+        <span class="qr-inline-label">Pindai untuk beri <b>Like</b></span>
+      </div>
     </aside>
   </section>
 
@@ -88,17 +88,6 @@
   <button class="lb-arrow lb-prev" id="lbPrev" aria-label="Sebelumnya"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
   <img id="lbImg" class="lb-img" alt="">
   <button class="lb-arrow lb-next" id="lbNext" aria-label="Berikutnya"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-</div>
-
-<!-- QR modal -->
-<div class="qr-modal" id="qrModal" hidden>
-  <div class="qr-card">
-    <button class="qr-close" id="qrClose" aria-label="Tutup">&times;</button>
-    <h2>Pindai &amp; Beri Like</h2>
-    <p>Arahkan kamera HP ke kode di bawah untuk membuka galeri ini dan memberi <span class="hl">like</span> pada karya favoritmu.</p>
-    <div class="qr-box" id="qrBox"></div>
-    <p class="qr-url" id="qrUrl"></p>
-  </div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
