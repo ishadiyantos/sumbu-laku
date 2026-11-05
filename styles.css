@@ -25,18 +25,14 @@ body{
   margin:0;
   font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   color:var(--ink);
-  background:
-    radial-gradient(1200px 700px at 50% -10%, #fffdf7 0%, var(--cream-100) 42%, var(--cream-200) 100%);
+  background-color:var(--cream-100);
+  background-image:linear-gradient(180deg, #fbf8f1 0%, var(--cream-100) 520px);
+  background-repeat:no-repeat;
   min-height:100dvh;
   display:flex;flex-direction:column;
   overflow-x:hidden;
 }
-.bg-veil{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(60% 45% at 100% 100%, rgba(47,101,82,.10), transparent 60%),
-    radial-gradient(55% 40% at 0% 100%, rgba(181,119,31,.09), transparent 60%);
-}
+.bg-veil{display:none}
 
 /* ---------- Topbar ---------- */
 .topbar{position:relative;z-index:5;border-bottom:1px solid var(--line);
@@ -209,6 +205,7 @@ body{
   .topnav a{font-size:13px;padding:7px 12px}
   .brand-logo{height:42px;max-width:46vw}
   .botbar{padding-bottom:88px}
+  .qr-inline{display:none}
 }
 @media (max-width:480px){
   .topbar-inner{padding:10px 14px;gap:10px}
@@ -266,4 +263,9 @@ body{
   .author-inst{font-size:23px}
   .poster-img{max-height:84dvh}
   .qr-inline .qr-box svg{width:220px;height:220px}
+}
+
+/* QR is for scanning from a displayed screen — hide on phones, keep on desktop */
+@media (max-width:860px){
+  .qr-inline{display:none}
 }

@@ -4,9 +4,7 @@ body.landing{display:block;overflow-x:hidden}
 /* Hero */
 .hero{position:relative;z-index:1;overflow:hidden;border-bottom:1px solid var(--line)}
 .hero-bg{position:absolute;inset:0;
-  background:
-    linear-gradient(180deg, rgba(247,242,232,.55) 0%, rgba(247,242,232,.82) 55%, var(--cream-100) 100%),
-    url("assets/background.jpg") center 30%/cover no-repeat;}
+  background:linear-gradient(180deg, #fdfaf3 0%, var(--cream-100) 100%);}
 .hero-inner{position:relative;max-width:900px;margin:0 auto;padding:clamp(40px,7vw,86px) 20px clamp(44px,6vw,72px);
   text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px}
 .eyebrow{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-600);
@@ -107,7 +105,7 @@ body.landing{display:block;overflow-x:hidden}
 .like-qr .qr-box svg{width:230px;height:230px;max-width:60vw;max-height:60vw;display:block}
 
 /* Footer */
-.foot{position:relative;z-index:1;text-align:center;padding:40px 20px 54px;background:var(--cream-200);
+.foot{position:relative;z-index:1;text-align:center;padding:40px 20px 54px;background:transparent;
   border-top:1px solid var(--line)}
 .foot-logo{height:46px;width:auto;margin-bottom:14px;opacity:.95}
 .foot p{margin:4px 0;font-weight:700;color:var(--green-800);font-size:14.5px}
