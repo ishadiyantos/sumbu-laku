@@ -1,0 +1,142 @@
+{
+  "event": {
+    "title": "Sumbu Laku, Jejak Bakti",
+    "subtitle": "Gelar Wicara — Jejak Bakti Alumni",
+    "host": "Sekolah Pascasarjana UGM · Penyuluhan & Komunikasi Pembangunan",
+    "note": "20 Tahun PKP UGM"
+  },
+  "works": [
+    {
+      "id": "diah-ajeng-csr-6",
+      "nama": "Dr. Diah Ajeng Purwani, S.Sos., M.Si. & Niken Puspitasari, S.IP., M.A.",
+      "instansi": "UIN Sunan Kalijaga Yogyakarta",
+      "jenis": "Buku",
+      "judul": "CSR 6.0: Pemberdayaan sebagai Kunci di Era Sustainability",
+      "jenjang": "S3 PKP",
+      "angkatan": "2014",
+      "image": "posters/diah-ajeng-csr-6.jpg",
+      "pdf": "posters/pdf/diah-ajeng-csr-6.pdf"
+    },
+    {
+      "id": "diah-ajeng-komunikasi-pemberdayaan-digital",
+      "nama": "Dr. Diah Ajeng Purwani, S.Sos., M.Si.",
+      "instansi": "UIN Sunan Kalijaga Yogyakarta",
+      "jenis": "Buku",
+      "judul": "Komunikasi Pemberdayaan Digital",
+      "jenjang": "S3 PKP",
+      "angkatan": "2014",
+      "image": "posters/diah-ajeng-komunikasi-pemberdayaan-digital.jpg",
+      "pdf": "posters/pdf/diah-ajeng-komunikasi-pemberdayaan-digital.pdf"
+    },
+    {
+      "id": "diah-ajeng-pemberdayaan-era-digital",
+      "nama": "Dr. Diah Ajeng Purwani, S.Sos., M.Si.",
+      "instansi": "UIN Sunan Kalijaga Yogyakarta",
+      "jenis": "Buku",
+      "judul": "Pemberdayaan Era Digital: Komunikasi Digital untuk Masa Depan yang Lebih Inklusif",
+      "jenjang": "S3 PKP",
+      "angkatan": "2014",
+      "image": "posters/diah-ajeng-pemberdayaan-era-digital.jpg",
+      "pdf": "posters/pdf/diah-ajeng-pemberdayaan-era-digital.pdf"
+    },
+    {
+      "id": "diah-ajeng-empowering-msmes",
+      "nama": "Dr. Diah Ajeng Purwani, S.Sos., M.Si. dkk.",
+      "instansi": "UIN Sunan Kalijaga Yogyakarta",
+      "jenis": "Artikel Jurnal",
+      "judul": "Empowering Society Through Digitalization of Micro to Medium Enterprises During the Recession",
+      "jenjang": "S3 PKP",
+      "angkatan": "2014",
+      "image": "posters/diah-ajeng-empowering-msmes.jpg",
+      "pdf": "posters/pdf/diah-ajeng-empowering-msmes.pdf"
+    },
+    {
+      "id": "hasan-asadi-von-foerster",
+      "nama": "Mohamad Hasan As'adi",
+      "instansi": "Yayasan Wahid Hasyim Yogyakarta",
+      "jenis": "Artikel Jurnal",
+      "judul": "The Fragmented Legacy of Heinz von Foerster: Bibliometric Mapping of Second-Order Cybernetics, 1981–2025",
+      "jenjang": "S2 PKP",
+      "angkatan": "2021",
+      "image": "posters/hasan-asadi-von-foerster.jpg",
+      "pdf": "posters/pdf/hasan-asadi-von-foerster.pdf"
+    },
+    {
+      "id": "fajar-pramono-oligarchy",
+      "nama": "Muhamad Fajar Pramono dkk.",
+      "instansi": "Universitas Darussalam Gontor, Ponorogo",
+      "jenis": "Artikel Jurnal",
+      "judul": "Repositioning Oligarchy and Democratic Governance: Institutional Reform in Indonesia",
+      "jenjang": "S3 PKP",
+      "angkatan": "2015",
+      "image": "posters/fajar-pramono-oligarchy.jpg",
+      "pdf": ""
+    },
+    {
+      "id": "dhyah-ayu-ecopreneurship",
+      "nama": "Dhyah Ayu Retno Widyastuti",
+      "instansi": "Universitas Atma Jaya Yogyakarta",
+      "jenis": "Penelitian",
+      "judul": "“Ecopreneurship Communication”: Ruang Partisipasi Perempuan dalam Merespons Limbah Sisa Produksi pada UMKM",
+      "jenjang": "S3 PKP",
+      "angkatan": "2019",
+      "image": "posters/dhyah-ayu-ecopreneurship.jpg",
+      "pdf": "posters/pdf/dhyah-ayu-ecopreneurship.pdf"
+    },
+    {
+      "id": "niken-meilani-sexuality-education",
+      "nama": "Dr. Niken Meilani, S.Si.T., M.Kes.",
+      "instansi": "Poltekkes Kemenkes Yogyakarta",
+      "jenis": "Penelitian",
+      "judul": "Mothers’ Behaviour and Barriers in Early Childhood Sexuality Education",
+      "jenjang": "S3 PKP",
+      "angkatan": "2020",
+      "image": "posters/niken-meilani-sexuality-education.jpg",
+      "pdf": "posters/pdf/niken-meilani-sexuality-education.pdf"
+    },
+    {
+      "id": "fibriyani-sectoral-ego",
+      "nama": "Fibriyani Nur Aliya dkk.",
+      "instansi": "Universitas Gadjah Mada",
+      "jenis": "Disertasi",
+      "judul": "Exploration of Sectoral Ego Through Organizational Communication Approach (Indonesia One Data / SDI Forum)",
+      "jenjang": "S3 PKP",
+      "angkatan": "",
+      "image": "posters/fibriyani-sectoral-ego.jpg",
+      "pdf": "posters/pdf/fibriyani-sectoral-ego.pdf"
+    },
+    {
+      "id": "jazirrotul-akulturasi-budaya",
+      "nama": "Jazirrotul Ma'na, S.I.Kom., M.Sc.",
+      "instansi": "Universitas Dian Nuswantoro Semarang",
+      "jenis": "Tesis",
+      "judul": "Sistem Komunikasi Pembangunan untuk Penguatan Akulturasi Budaya (Studi Tradisi Dugderan di Kota Semarang)",
+      "jenjang": "S2 PKP",
+      "angkatan": "2023",
+      "image": "posters/jazirrotul-akulturasi-budaya.jpg",
+      "pdf": ""
+    },
+    {
+      "id": "najib-hybrid-dev-communication",
+      "nama": "Prof. Dr. H. M. Najib Husain, S.Sos., M.Si.",
+      "instansi": "FISIP Universitas Halu Oleo",
+      "jenis": "Orasi Ilmiah",
+      "judul": "Hybrid Development Communication: Kolaborasi Teknologi dan Kearifan Lokal untuk Pembangunan yang Berkelanjutan",
+      "jenjang": "S3 PKP",
+      "angkatan": "2009",
+      "image": "posters/najib-hybrid-dev-communication.jpg",
+      "pdf": "posters/pdf/najib-hybrid-dev-communication.pdf"
+    },
+    {
+      "id": "pilar-jateng-gis",
+      "nama": "",
+      "instansi": "",
+      "jenis": "Lainnya",
+      "judul": "Pilar Jateng: Platform Pemetaan Pertanian Berbasis GIS",
+      "jenjang": "",
+      "angkatan": "",
+      "image": "posters/pilar-jateng-gis.jpg",
+      "pdf": ""
+    }
+  ]
+}

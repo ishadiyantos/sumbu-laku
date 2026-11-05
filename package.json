@@ -1,0 +1,10 @@
+{
+  "name": "galeri-karya-alumni-sumbu-bakti",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Galeri karya alumni — Sumbu Laku, Jejak Bakti (SPs UGM PKP)",
+  "dependencies": {
+    "@upstash/redis": "^1.34.3"
+  }
+}

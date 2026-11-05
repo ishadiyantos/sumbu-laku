@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Galeri Karya Alumni — Sumbu Laku, Jejak Bakti</title>
+<meta name="description" content="Galeri karya alumni Sekolah Pascasarjana UGM — Penyuluhan & Komunikasi Pembangunan. Gelar Wicara: Sumbu Laku, Jejak Bakti.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="bg-veil" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand-logo-link" href="index.html" aria-label="Beranda">
+      <img class="brand-logo" src="assets/logo_banner2.png" alt="UGM Sekolah Pascasarjana — Penyuluhan & Komunikasi Pembangunan">
+    </a>
+    <nav class="topnav">
+      <a href="index.html">Beranda</a>
+      <a href="galeri.html" class="active" aria-current="page">Galeri Karya</a>
+    </nav>
+    <button id="qrBtn" class="qr-btn" title="Pindai untuk beri Like" aria-label="Tampilkan QR">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="17" y1="14" x2="21" y2="14"/><line x1="14" y1="17" x2="14" y2="21"/><line x1="17" y1="17" x2="17" y2="21"/><line x1="21" y1="17" x2="21" y2="21"/><line x1="20" y1="14" x2="21" y2="14"/></svg>
+      <span>Like via QR</span>
+    </button>
+  </div>
+  <div class="autobar" id="autobar"><span id="autofill"></span></div>
+</header>
+
+<main class="stage">
+  <button class="nav-arrow prev" id="prevBtn" aria-label="Karya sebelumnya">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+
+  <section class="viewer" id="viewer">
+    <figure class="poster-wrap" id="posterWrap">
+      <img id="posterImg" class="poster-img" alt="" />
+      <figcaption class="zoom-hint">Ketuk poster untuk perbesar</figcaption>
+    </figure>
+
+    <aside class="info" id="info">
+      <div class="info-top">
+        <span class="counter" id="counter">Karya 1 dari 12</span>
+        <div class="badges" id="badges"></div>
+      </div>
+      <h1 class="work-title" id="workTitle"></h1>
+      <div class="author-block">
+        <p class="author-name" id="authorName"></p>
+        <p class="author-inst" id="authorInst"></p>
+        <p class="author-meta" id="authorMeta"></p>
+      </div>
+      <div class="actions">
+        <button class="love-btn" id="loveBtn" aria-pressed="false">
+          <svg class="heart" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 21s-6.7-4.3-9.4-8.2C.6 9.6 1.5 6 4.7 5c2-.6 3.9.2 5.1 1.8l.2.3.2-.3C11.4 5.2 13.3 4.4 15.3 5c3.2 1 4.1 4.6 2.1 7.8C18.7 16.7 12 21 12 21z"/></svg>
+          <span class="love-count" id="loveCount">0</span>
+          <span class="love-label" id="loveLabel">Like</span>
+        </button>
+        <a class="pdf-btn" id="pdfBtn" href="#" target="_blank" rel="noopener" hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Unduh PDF
+        </a>
+      </div>
+    </aside>
+  </section>
+
+  <button class="nav-arrow next" id="nextBtn" aria-label="Karya berikutnya">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</main>
+
+<nav class="filterbar" id="filterbar" aria-label="Saring berdasarkan jenis karya"></nav>
+
+<div class="botbar">
+  <button class="autoplay-btn" id="autoBtn" aria-pressed="true" title="Putar otomatis tiap 30 detik">
+    <svg class="ic-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+    <svg class="ic-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" hidden><path d="M8 5v14l11-7z"/></svg>
+    <span id="autoLabel">Auto-slide</span>
+  </button>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-close" id="lbClose" aria-label="Tutup">&times;</button>
+  <button class="lb-arrow lb-prev" id="lbPrev" aria-label="Sebelumnya"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <img id="lbImg" class="lb-img" alt="">
+  <button class="lb-arrow lb-next" id="lbNext" aria-label="Berikutnya"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+</div>
+
+<!-- QR modal -->
+<div class="qr-modal" id="qrModal" hidden>
+  <div class="qr-card">
+    <button class="qr-close" id="qrClose" aria-label="Tutup">&times;</button>
+    <h2>Pindai &amp; Beri Like</h2>
+    <p>Arahkan kamera HP ke kode di bawah untuk membuka galeri ini dan memberi <span class="hl">like</span> pada karya favoritmu.</p>
+    <div class="qr-box" id="qrBox"></div>
+    <p class="qr-url" id="qrUrl"></p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="vendor/qrcode.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
