@@ -246,9 +246,43 @@
     else { mset.add(emoji); setCount(w.id, emoji, countOf(w.id, emoji) + 1); }
     renderReactions();
     const btn = els.reactions.querySelector(`.react-btn[data-emoji="${emoji}"]`);
-    if (btn && !on) { btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 380); }
+    if (btn && !on) {
+      btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 380);
+      flyBurst(emoji, btn);
+    }
     await sendReaction(w.id, emoji, action);
     renderReactions();
+  }
+
+  // ---- floating emoji (Zoom-style) ----
+  const reduceMotion = (() => { try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } })();
+  function charOf(key) { const r = REACTIONS.find((x) => x.key === key); return r ? r.char : "❤️"; }
+  function flyOne(char, x, y) {
+    const el = document.createElement("span");
+    el.className = "fly-emoji";
+    el.textContent = char;
+    el.style.left = x + "px";
+    el.style.top = y + "px";
+    document.body.appendChild(el);
+    const dx = Math.random() * 120 - 60;
+    const rise = -(window.innerHeight * 0.5 + Math.random() * 160);
+    const rot = Math.random() * 44 - 22;
+    const dur = 1500 + Math.random() * 800;
+    const anim = el.animate([
+      { transform: "translate(-50%,-50%) scale(.5)", opacity: 0 },
+      { transform: "translate(-50%,-50%) scale(1.2)", opacity: 1, offset: 0.14 },
+      { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${rise}px)) scale(1) rotate(${rot}deg)`, opacity: 0 },
+    ], { duration: dur, easing: "cubic-bezier(.33,0,.3,1)" });
+    anim.onfinish = () => el.remove();
+    anim.oncancel = () => el.remove();
+  }
+  function flyBurst(emoji, btn) {
+    if (reduceMotion || !btn) return;
+    const r = btn.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    for (let i = 0; i < 3; i++) {
+      setTimeout(() => flyOne(charOf(emoji), cx + (Math.random() * 20 - 10), cy), i * 110);
+    }
   }
 
   // ---- lightbox ----

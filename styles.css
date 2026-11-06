@@ -292,3 +292,8 @@ body{
   .react-btn .re-emoji{font-size:27px}
   .react-btn .re-count{font-size:19px}
 }
+
+/* ===== Floating reaction emoji (Zoom-style) ===== */
+.fly-emoji{position:fixed;z-index:90;pointer-events:none;font-size:30px;line-height:1;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));user-select:none}
+@media (min-width:1500px){ .fly-emoji{font-size:44px} }
