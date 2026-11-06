@@ -152,6 +152,7 @@
     renderReactions();
     renderDots();
     scheduleAuto();
+    entranceBurst(w);
   }
 
   function renderReactions() {
@@ -236,8 +237,10 @@
   }
 
   // ---- reaction action ----
+  let suspendPollUntil = 0;
   async function toggleReaction(emoji) {
     if (RKEYS.indexOf(emoji) < 0) return;
+    suspendPollUntil = Date.now() + 2500; // don't let polling clobber the optimistic update
     const w = current();
     const mset = mineSet(w.id);
     const on = mset.has(emoji);
@@ -283,6 +286,68 @@
     for (let i = 0; i < 3; i++) {
       setTimeout(() => flyOne(charOf(emoji), cx + (Math.random() * 20 - 10), cy), i * 110);
     }
+  }
+
+  // Welcome burst when a poster that already has reactions comes into view.
+  let entranceTimers = [];
+  function entranceBurst(w) {
+    if (reduceMotion) return;
+    entranceTimers.forEach(clearTimeout); entranceTimers = [];
+    const c = state.counts[w.id];
+    if (!c) return;
+    let spawned = 0, delay = 160; const MAX = 12;
+    for (const r of REACTIONS) {
+      const n = c[r.key] || 0;
+      if (n <= 0) continue;
+      const btn = els.reactions.querySelector(`.react-btn[data-emoji="${r.key}"]`);
+      if (!btn) continue;
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      const k = Math.min(n, 4);
+      for (let i = 0; i < k && spawned < MAX; i++) {
+        const d = delay; delay += 95; spawned++;
+        entranceTimers.push(setTimeout(() => flyOne(r.char, cx + (Math.random() * 24 - 12), cy), d));
+      }
+      if (spawned >= MAX) break;
+    }
+  }
+
+  // ---- live polling: show reactions from other people in real time ----
+  let pollTimer = null;
+  async function pollReactions() {
+    if (!state.backend || Date.now() < suspendPollUntil) return;
+    try {
+      const resp = await fetch(`api/reactions?deviceId=${encodeURIComponent(DEV)}`, { cache: "no-store" });
+      if (!resp.ok) return;
+      const data = await resp.json();
+      const newCounts = data.counts || {};
+      const w = current();
+      // fly emojis for increases on the poster currently shown
+      if (w && !reduceMotion) {
+        const oldC = state.counts[w.id] || {}, newC = newCounts[w.id] || {};
+        let delay = 0;
+        for (const r of REACTIONS) {
+          const inc = (newC[r.key] || 0) - (oldC[r.key] || 0);
+          if (inc <= 0) continue;
+          const btn = els.reactions.querySelector(`.react-btn[data-emoji="${r.key}"]`);
+          if (!btn) continue;
+          const rect = btn.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+          const k = Math.min(inc, 5);
+          for (let i = 0; i < k; i++) { const d = delay; delay += 110; setTimeout(() => flyOne(r.char, cx + (Math.random() * 24 - 12), cy), d); }
+        }
+      }
+      state.counts = newCounts;
+      const m = data.mine || {};
+      state.mine = {};
+      Object.keys(m).forEach((id) => { state.mine[id] = new Set(m[id] || []); });
+      renderReactions();
+    } catch (e) {}
+  }
+  function startPolling() {
+    if (pollTimer || !state.backend) return;
+    pollTimer = setInterval(() => { if (document.visibilityState === "visible") pollReactions(); }, 7000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") pollReactions(); });
   }
 
   // ---- lightbox ----
@@ -370,6 +435,7 @@
     render(false);
     await fetchReactions();
     render(false);
+    startPolling();
     if (state.backend === false) {
       try {
         if (!sessionStorage.getItem("sb_demo_hinted")) {
