@@ -1,30 +1,36 @@
 import { getRedis } from "./_redis.js";
 
-// GET /api/votes?deviceId=...
-// -> { counts: { id: n, ... }, mine: [id, ...] }
+// GET /api/reactions?deviceId=...
+// -> { counts: { id: { emoji: n } }, mine: { id: [emoji, ...] } }
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
     return res.status(405).json({ error: "method not allowed" });
   }
   const redis = getRedis();
-  if (!redis) {
-    // Backend not configured yet -> tell client to use local fallback.
-    return res.status(503).json({ error: "backend not configured" });
-  }
+  if (!redis) return res.status(503).json({ error: "backend not configured" });
+
   const deviceId = (req.query && req.query.deviceId) || "";
   try {
     const ids = await redis.smembers("sb:works");
     const counts = {};
-    const mine = [];
+    const mine = {};
     if (ids && ids.length) {
       const p = redis.pipeline();
-      ids.forEach((id) => p.scard(`sb:love:${id}`));
-      if (deviceId) ids.forEach((id) => p.sismember(`sb:love:${id}`, deviceId));
+      ids.forEach((id) => p.hgetall(`sb:rc:${id}`));
+      if (deviceId) ids.forEach((id) => p.smembers(`sb:rd:${id}:${deviceId}`));
       const r = await p.exec();
-      ids.forEach((id, i) => { counts[id] = Number(r[i]) || 0; });
+      ids.forEach((id, i) => {
+        const h = r[i] || {};
+        const c = {};
+        for (const k in h) { const n = Number(h[k]) || 0; if (n > 0) c[k] = n; }
+        counts[id] = c;
+      });
       if (deviceId) {
-        ids.forEach((id, i) => { if (r[ids.length + i]) mine.push(id); });
+        ids.forEach((id, i) => {
+          const arr = r[ids.length + i];
+          mine[id] = Array.isArray(arr) ? arr : [];
+        });
       }
     }
     res.setHeader("Cache-Control", "no-store");

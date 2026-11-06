@@ -15,3 +15,6 @@ export function validId(id) {
 export function validDev(d) {
   return typeof d === "string" && /^[a-z0-9-]{1,60}$/.test(d);
 }
+
+// Allowed reaction keys (must match the frontend REACTIONS set).
+export const REACTIONS = ["love", "thumb", "clap", "fire", "idea"];

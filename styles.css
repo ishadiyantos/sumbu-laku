@@ -269,3 +269,26 @@ body{
 @media (max-width:860px){
   .qr-inline{display:none}
 }
+
+/* ===== Reactions (emoji) ===== */
+.react-wrap{display:flex;flex-direction:column;gap:9px;margin-top:2px}
+.react-lead{font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-600)}
+.reactions{display:flex;flex-wrap:wrap;gap:8px}
+.react-btn{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font:inherit;
+  background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:8px 15px;
+  box-shadow:0 6px 16px -12px rgba(18,42,33,.4);transition:transform .14s, background .18s, border-color .18s}
+.react-btn:hover{border-color:var(--gold-400);transform:translateY(-1px)}
+.react-btn .re-emoji{font-size:20px;line-height:1}
+.react-btn .re-count{font-weight:800;font-variant-numeric:tabular-nums;font-size:14.5px;color:var(--green-800);min-width:9px;text-align:center}
+.react-btn .re-count.zero{color:var(--muted);opacity:.5}
+.react-btn.on{background:rgba(47,101,82,.12);border-color:var(--green-600)}
+.react-btn.on .re-count{color:var(--green-700)}
+.react-btn.pop .re-emoji{animation:repop .38s ease}
+@keyframes repop{0%{transform:scale(1)}40%{transform:scale(1.42)}100%{transform:scale(1)}}
+
+@media (min-width:1500px){
+  .react-lead{font-size:14px}
+  .react-btn{padding:12px 22px;gap:10px}
+  .react-btn .re-emoji{font-size:27px}
+  .react-btn .re-count{font-size:19px}
+}

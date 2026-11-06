@@ -2,18 +2,29 @@
   "use strict";
 
   const $ = (s) => document.querySelector(s);
+
+  // Reaction set (keys must match api/_redis.js REACTIONS)
+  const REACTIONS = [
+    { key: "love",  char: "❤️", label: "Suka" },
+    { key: "thumb", char: "👍", label: "Setuju" },
+    { key: "clap",  char: "👏", label: "Apresiasi" },
+    { key: "fire",  char: "🔥", label: "Keren" },
+    { key: "idea",  char: "💡", label: "Inspiratif" },
+  ];
+  const RKEYS = REACTIONS.map((r) => r.key);
+
   const state = {
-    all: [],          // all works
-    list: [],         // filtered works
+    all: [],
+    list: [],
     idx: 0,
     filter: "Semua",
-    counts: {},       // id -> love count
-    mine: new Set(),  // ids this device loves
-    backend: null,    // true/false once known
-    autoplay: true,   // auto-slide on by default
+    counts: {},       // id -> { emoji: count }
+    mine: {},         // id -> Set(emoji)
+    backend: null,
+    autoplay: true,
     timer: null,
   };
-  const AUTOPLAY_MS = 30000; // 30 detik
+  const AUTOPLAY_MS = 30000;
 
   // ---- device id ----
   function deviceId() {
@@ -28,48 +39,52 @@
   const DEV = deviceId();
 
   // ---- local fallback store ----
-  const LKEY = "sb_votes_v1";
+  const LKEY = "sb_react_v1";
   function localLoad() {
     try { return JSON.parse(localStorage.getItem(LKEY) || "{}"); } catch (e) { return {}; }
   }
   function localSave(obj) { try { localStorage.setItem(LKEY, JSON.stringify(obj)); } catch (e) {} }
 
-  // ---- API helpers (graceful fallback to localStorage) ----
-  async function fetchVotes() {
+  function mineSet(id) { if (!state.mine[id]) state.mine[id] = new Set(); return state.mine[id]; }
+  function countOf(id, emoji) { return (state.counts[id] && state.counts[id][emoji]) || 0; }
+  function setCount(id, emoji, n) { if (!state.counts[id]) state.counts[id] = {}; state.counts[id][emoji] = Math.max(0, n); }
+
+  // ---- API (graceful fallback) ----
+  async function fetchReactions() {
     try {
-      const r = await fetch(`api/votes?deviceId=${encodeURIComponent(DEV)}`, { cache: "no-store" });
+      const r = await fetch(`api/reactions?deviceId=${encodeURIComponent(DEV)}`, { cache: "no-store" });
       if (!r.ok) throw new Error("no api");
       const data = await r.json();
       state.backend = true;
       state.counts = data.counts || {};
-      state.mine = new Set(data.mine || []);
+      state.mine = {};
+      const m = data.mine || {};
+      Object.keys(m).forEach((id) => { state.mine[id] = new Set(m[id] || []); });
       return;
     } catch (e) {
-      // demo / offline mode
       state.backend = false;
       const local = localLoad();
       state.counts = {};
-      state.mine = new Set();
-      state.all.forEach((w) => {
-        const rec = local[w.id] || { c: 0, mine: false };
-        state.counts[w.id] = rec.c || 0;
-        if (rec.mine) state.mine.add(w.id);
+      state.mine = {};
+      Object.keys(local).forEach((id) => {
+        state.counts[id] = Object.assign({}, local[id].counts || {});
+        state.mine[id] = new Set(Object.keys(local[id].mine || {}).filter((k) => local[id].mine[k]));
       });
     }
   }
 
-  async function sendVote(id, action) {
+  async function sendReaction(id, emoji, action) {
     if (state.backend) {
       try {
-        const r = await fetch("api/vote", {
+        const r = await fetch("api/react", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id, deviceId: DEV, action }),
+          body: JSON.stringify({ id, deviceId: DEV, emoji, action }),
         });
-        if (!r.ok) throw new Error("vote fail");
+        if (!r.ok) throw new Error("react fail");
         const data = await r.json();
-        if (typeof data.count === "number") state.counts[id] = data.count;
-        return true;
+        if (typeof data.count === "number") setCount(id, emoji, data.count);
+        return;
       } catch (e) {
         showToast("Gagal menyimpan ke server, memakai mode lokal.");
         state.backend = false;
@@ -77,13 +92,13 @@
     }
     // local fallback
     const local = localLoad();
-    const rec = local[id] || { c: 0, mine: false };
-    if (action === "love" && !rec.mine) { rec.c++; rec.mine = true; }
-    else if (action === "unlove" && rec.mine) { rec.c = Math.max(0, rec.c - 1); rec.mine = false; }
-    local[id] = rec;
+    if (!local[id]) local[id] = { counts: {}, mine: {} };
+    const rec = local[id];
+    const cur = rec.counts[emoji] || 0;
+    if (action === "add" && !rec.mine[emoji]) { rec.counts[emoji] = cur + 1; rec.mine[emoji] = true; }
+    else if (action === "remove" && rec.mine[emoji]) { rec.counts[emoji] = Math.max(0, cur - 1); rec.mine[emoji] = false; }
     localSave(local);
-    state.counts[id] = rec.c;
-    return true;
+    setCount(id, emoji, rec.counts[emoji] || 0);
   }
 
   // ---- rendering ----
@@ -91,8 +106,7 @@
   const els = {
     counter: $("#counter"), badges: $("#badges"), title: $("#workTitle"),
     name: $("#authorName"), inst: $("#authorInst"), meta: $("#authorMeta"),
-    loveBtn: $("#loveBtn"), loveCount: $("#loveCount"), loveLabel: $("#loveLabel"),
-    pdfBtn: $("#pdfBtn"), progress: $("#progress"),
+    reactions: $("#reactions"), pdfBtn: $("#pdfBtn"), progress: $("#progress"),
   };
 
   function current() { return state.list[state.idx]; }
@@ -100,7 +114,6 @@
   function render(animate = true) {
     const w = current();
     if (!w) return;
-    // image swap transition
     if (animate) {
       posterImg.classList.add("swap");
       setTimeout(() => {
@@ -115,7 +128,6 @@
 
     els.counter.textContent = `Karya ${state.idx + 1} dari ${state.list.length}`;
 
-    // badges
     const b = [];
     b.push(`<span class="badge jenis" data-j="${esc(w.jenis)}">${esc(w.jenis)}</span>`);
     if (w.jenjang) b.push(`<span class="badge soft">${esc(w.jenjang)}</span>`);
@@ -134,22 +146,24 @@
     els.meta.textContent = metaParts.join(" · ");
     els.meta.style.display = metaParts.length ? "" : "none";
 
-    // pdf
     if (w.pdf) { els.pdfBtn.hidden = false; els.pdfBtn.href = w.pdf; }
     else { els.pdfBtn.hidden = true; }
 
-    renderLove();
+    renderReactions();
     renderDots();
     scheduleAuto();
   }
 
-  function renderLove() {
+  function renderReactions() {
     const w = current();
-    const c = state.counts[w.id] || 0;
-    const mine = state.mine.has(w.id);
-    els.loveCount.textContent = c;
-    els.loveBtn.setAttribute("aria-pressed", mine ? "true" : "false");
-    els.loveLabel.textContent = mine ? "Disukai" : "Like";
+    const mset = state.mine[w.id] || new Set();
+    els.reactions.innerHTML = REACTIONS.map((r) => {
+      const c = countOf(w.id, r.key);
+      const on = mset.has(r.key);
+      return `<button class="react-btn${on ? " on" : ""}" data-emoji="${r.key}" aria-pressed="${on ? "true" : "false"}" title="${esc(r.label)}">`
+        + `<span class="re-emoji">${r.char}</span>`
+        + `<span class="re-count${c ? "" : " zero"}">${c}</span></button>`;
+    }).join("");
   }
 
   function renderDots() {
@@ -182,7 +196,7 @@
     }
     if (fill) {
       fill.style.transition = "none"; fill.style.width = "0%";
-      void fill.offsetWidth; // reflow to restart animation
+      void fill.offsetWidth;
       fill.style.transition = "width " + AUTOPLAY_MS + "ms linear";
       fill.style.width = "100%";
     }
@@ -221,17 +235,20 @@
     bar.querySelectorAll(".chip").forEach((c) => c.addEventListener("click", () => applyFilter(c.dataset.j)));
   }
 
-  // ---- love action ----
-  async function toggleLove() {
+  // ---- reaction action ----
+  async function toggleReaction(emoji) {
+    if (RKEYS.indexOf(emoji) < 0) return;
     const w = current();
-    const mine = state.mine.has(w.id);
-    const action = mine ? "unlove" : "love";
-    // optimistic
-    if (mine) { state.mine.delete(w.id); state.counts[w.id] = Math.max(0, (state.counts[w.id] || 1) - 1); }
-    else { state.mine.add(w.id); state.counts[w.id] = (state.counts[w.id] || 0) + 1; els.loveBtn.classList.add("pulse"); setTimeout(() => els.loveBtn.classList.remove("pulse"), 400); }
-    renderLove();
-    await sendVote(w.id, action);
-    renderLove();
+    const mset = mineSet(w.id);
+    const on = mset.has(emoji);
+    const action = on ? "remove" : "add";
+    if (on) { mset.delete(emoji); setCount(w.id, emoji, countOf(w.id, emoji) - 1); }
+    else { mset.add(emoji); setCount(w.id, emoji, countOf(w.id, emoji) + 1); }
+    renderReactions();
+    const btn = els.reactions.querySelector(`.react-btn[data-emoji="${emoji}"]`);
+    if (btn && !on) { btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 380); }
+    await sendReaction(w.id, emoji, action);
+    renderReactions();
   }
 
   // ---- lightbox ----
@@ -239,7 +256,7 @@
   function openLightbox() { lbImg.src = current().image; lightbox.hidden = false; document.body.style.overflow = "hidden"; clearAuto(); scheduleAuto(); }
   function closeLightbox() { lightbox.hidden = true; document.body.style.overflow = ""; scheduleAuto(); }
 
-  // ---- QR (inline, under the action buttons) ----
+  // ---- QR (inline) ----
   function canonicalUrl() {
     const u = new URL(window.location.href);
     u.hash = ""; u.search = "";
@@ -267,7 +284,10 @@
   function wire() {
     $("#prevBtn").addEventListener("click", () => go(-1));
     $("#nextBtn").addEventListener("click", () => go(1));
-    els.loveBtn.addEventListener("click", toggleLove);
+    els.reactions.addEventListener("click", (e) => {
+      const btn = e.target.closest(".react-btn");
+      if (btn) toggleReaction(btn.getAttribute("data-emoji"));
+    });
     $("#posterWrap").addEventListener("click", openLightbox);
     $("#lbClose").addEventListener("click", closeLightbox);
     $("#lbPrev").addEventListener("click", (e) => { e.stopPropagation(); go(-1); });
@@ -286,7 +306,6 @@
       }
       if (e.key === "ArrowLeft") go(-1);
       else if (e.key === "ArrowRight") go(1);
-      else if (e.key.toLowerCase() === "l") toggleLove();
     });
 
     // swipe
@@ -315,13 +334,12 @@
     wire();
     buildInlineQR();
     render(false);
-    await fetchVotes();
+    await fetchReactions();
     render(false);
     if (state.backend === false) {
-      // subtle hint only once per session
       try {
         if (!sessionStorage.getItem("sb_demo_hinted")) {
-          showToast("Mode demo: like tersimpan di perangkat ini. Aktifkan backend untuk like bersama.");
+          showToast("Mode demo: reaksi tersimpan di perangkat ini. Aktifkan backend untuk reaksi bersama.");
           sessionStorage.setItem("sb_demo_hinted", "1");
         }
       } catch (e) {}

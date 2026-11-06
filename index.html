@@ -247,16 +247,16 @@
     </div>
   </section>
 
-  <!-- LIKE / QR -->
-  <section class="sec like-sec" id="like">
-    <div class="like-card">
-      <div class="like-text">
+  <!-- CTA REAKSI / QR -->
+  <section class="sec cta-sec" id="reaksi">
+    <div class="cta-card">
+      <div class="cta-text">
         <span class="kicker light">Dukung Karya Alumni</span>
-        <h2>Pindai &amp; Beri <span class="hl">Like</span></h2>
-        <p>Arahkan kamera HP ke kode ini untuk membuka Galeri Karya Alumni dan memberi <b>like</b> pada karya favoritmu.</p>
+        <h2>Pindai &amp; Beri <span class="hl">Reaksi</span></h2>
+        <p>Arahkan kamera HP ke kode ini untuk membuka Galeri Karya Alumni dan memberi <b>reaksi</b> (&#10084;&#65039; &#128077; &#128079; &#128293; &#128161;) pada karya favoritmu.</p>
         <a class="btn btn-gold" href="galeri.html">Buka Galeri Karya →</a>
       </div>
-      <div class="like-qr"><div id="qrBox" class="qr-box"></div></div>
+      <div class="cta-qr"><div id="qrBox" class="qr-box"></div></div>
     </div>
   </section>
 
@@ -271,7 +271,7 @@
 <script src="vendor/qrcode.js"></script>
 <script>
   (function(){
-    // QR pointing to the gallery (for likes)
+    // QR pointing to the gallery (for reactions)
     try{
       var g = new URL("galeri.html", window.location.href);
       g.hash=""; g.search="";
