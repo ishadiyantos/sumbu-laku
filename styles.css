@@ -303,22 +303,30 @@ body.is-fullscreen .stage{padding-top:18px}
   filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));user-select:none}
 @media (min-width:1500px){ .fly-emoji{font-size:44px} }
 
-/* ===== Desktop: fit to viewport, no page scroll ===== */
+/* ===== Floating QR (desktop, bottom-right) ===== */
+.qr-float{position:fixed;right:18px;bottom:18px;z-index:40;display:flex;flex-direction:column;align-items:center;gap:7px;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 12px 10px;
+  box-shadow:0 18px 44px -16px rgba(18,42,33,.55)}
+.qr-float .qr-box{margin:0;padding:0;border:0;background:transparent;box-shadow:none;width:auto}
+.qr-float .qr-box svg{display:block;width:clamp(96px,13vh,168px);height:clamp(96px,13vh,168px);max-width:none;max-height:none}
+.qr-float-label{font-size:12px;font-weight:700;color:var(--muted);text-align:center;line-height:1.25;max-width:160px}
+.qr-float-label b{color:#d64a3b}
+@media (max-width:860px){ .qr-float{display:none} }
+
+/* ===== Desktop: fit to viewport, no page scroll, big responsive poster ===== */
 @media (min-width:861px){
   html,body{height:100dvh}
   body{overflow:hidden}
   .stage{min-height:0;overflow:hidden;padding-top:10px;padding-bottom:8px}
-  .viewer{max-height:100%}
-  .poster-img{max-height:calc(100dvh - 190px)}
-  .info{gap:9px}
+  .viewer{max-height:100%;grid-template-columns:minmax(0,1.55fr) minmax(330px,430px);gap:clamp(24px,3vw,52px)}
+  .poster-wrap{max-height:100%;min-height:0}
+  .poster-img{max-height:calc(100dvh - 164px);max-width:100%;width:auto}
+  .info{gap:10px}
   .info-top{gap:7px}
-  .work-title{line-height:1.12}
-  .author-block{padding-top:9px}
+  .work-title{font-size:clamp(24px,2.7vw,46px);line-height:1.12}
+  .author-block{padding-top:10px}
   .actions{margin-top:0}
-  .react-wrap{gap:6px;margin-top:0}
-  .qr-inline{padding-top:10px;margin-top:2px;gap:12px}
-  .qr-inline .qr-box{padding:7px}
-  .qr-inline .qr-box svg{width:clamp(72px,10.5vh,150px);height:clamp(72px,10.5vh,150px)}
+  .react-wrap{gap:7px;margin-top:0}
   .filterbar{padding:6px 16px 3px}
   .botbar{padding:3px 16px 8px;gap:5px}
   .progress{gap:5px}
