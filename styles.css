@@ -302,3 +302,24 @@ body.is-fullscreen .stage{padding-top:18px}
 .fly-emoji{position:fixed;z-index:90;pointer-events:none;font-size:30px;line-height:1;
   filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));user-select:none}
 @media (min-width:1500px){ .fly-emoji{font-size:44px} }
+
+/* ===== Desktop: fit to viewport, no page scroll ===== */
+@media (min-width:861px){
+  html,body{height:100dvh}
+  body{overflow:hidden}
+  .stage{min-height:0;overflow:hidden;padding-top:10px;padding-bottom:8px}
+  .viewer{max-height:100%}
+  .poster-img{max-height:calc(100dvh - 190px)}
+  .info{gap:9px}
+  .info-top{gap:7px}
+  .work-title{line-height:1.12}
+  .author-block{padding-top:9px}
+  .actions{margin-top:0}
+  .react-wrap{gap:6px;margin-top:0}
+  .qr-inline{padding-top:10px;margin-top:2px;gap:12px}
+  .qr-inline .qr-box{padding:7px}
+  .qr-inline .qr-box svg{width:clamp(72px,10.5vh,150px);height:clamp(72px,10.5vh,150px)}
+  .filterbar{padding:6px 16px 3px}
+  .botbar{padding:3px 16px 8px;gap:5px}
+  .progress{gap:5px}
+}
