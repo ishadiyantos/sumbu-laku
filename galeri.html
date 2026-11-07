@@ -73,11 +73,18 @@
 <nav class="filterbar" id="filterbar" aria-label="Saring berdasarkan jenis karya"></nav>
 
 <div class="botbar">
-  <button class="autoplay-btn" id="autoBtn" aria-pressed="true" title="Putar otomatis tiap 30 detik">
-    <svg class="ic-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
-    <svg class="ic-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" hidden><path d="M8 5v14l11-7z"/></svg>
-    <span id="autoLabel">Auto-slide</span>
-  </button>
+  <div class="botbar-controls">
+    <button class="autoplay-btn" id="autoBtn" aria-pressed="true" title="Putar otomatis tiap 30 detik">
+      <svg class="ic-pause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+      <svg class="ic-play" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" hidden><path d="M8 5v14l11-7z"/></svg>
+      <span id="autoLabel">Auto-slide</span>
+    </button>
+    <button class="autoplay-btn" id="fsBtn" title="Layar penuh (sembunyikan menu)">
+      <svg class="ic-fs" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      <svg class="ic-exitfs" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+      <span id="fsLabel">Layar Penuh</span>
+    </button>
+  </div>
   <div class="progress" id="progress" aria-hidden="true"></div>
 </div>
 

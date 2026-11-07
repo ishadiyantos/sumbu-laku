@@ -146,6 +146,11 @@ body{
   border:1px solid var(--line);border-radius:999px;padding:6px 14px;transition:all .16s}
 .autoplay-btn:hover{border-color:var(--gold-400)}
 .autoplay-btn[aria-pressed="false"]{color:var(--muted)}
+.botbar-controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+
+/* Fullscreen: hide the menu bar so the poster fills the screen (e.g. on a TV) */
+body.is-fullscreen .topbar{display:none}
+body.is-fullscreen .stage{padding-top:18px}
 
 /* ---------- Progress dots ---------- */
 .progress{position:relative;z-index:2;display:flex;gap:6px;justify-content:center;flex-wrap:wrap;

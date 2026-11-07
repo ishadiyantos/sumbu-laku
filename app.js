@@ -372,6 +372,29 @@
     } catch (e) {}
   }
 
+  // ---- fullscreen (hide menu bar, fill screen) ----
+  function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement; }
+  function toggleFullscreen() {
+    if (fsElement()) {
+      (document.exitFullscreen || document.webkitExitFullscreen || function () {}).call(document);
+    } else {
+      const el = document.documentElement;
+      const req = el.requestFullscreen || el.webkitRequestFullscreen;
+      if (req) { try { const p = req.call(el); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
+    }
+  }
+  function syncFs() {
+    const on = !!fsElement();
+    document.body.classList.toggle("is-fullscreen", on);
+    const btn = document.getElementById("fsBtn");
+    if (btn) {
+      btn.querySelector(".ic-fs").hidden = on;
+      btn.querySelector(".ic-exitfs").hidden = !on;
+      const lbl = document.getElementById("fsLabel");
+      if (lbl) lbl.textContent = on ? "Keluar Layar Penuh" : "Layar Penuh";
+    }
+  }
+
   // ---- toast ----
   let toastT;
   function showToast(msg) {
@@ -394,6 +417,10 @@
     lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
     const autoBtn = document.getElementById("autoBtn");
     if (autoBtn) autoBtn.addEventListener("click", () => setAutoplay(!state.autoplay));
+    const fsBtn = document.getElementById("fsBtn");
+    if (fsBtn) fsBtn.addEventListener("click", toggleFullscreen);
+    document.addEventListener("fullscreenchange", syncFs);
+    document.addEventListener("webkitfullscreenchange", syncFs);
     els.progress.addEventListener("click", (e) => { const d = e.target.closest(".dot"); if (d) goTo(+d.dataset.i); });
 
     document.addEventListener("keydown", (e) => {
